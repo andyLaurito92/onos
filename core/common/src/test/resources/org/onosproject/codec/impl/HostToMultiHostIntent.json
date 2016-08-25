@@ -1,0 +1,19 @@
+{
+  "type": "HostToMultiHostIntent",
+  "appId": "test",
+  "selector": {"criteria": []},
+  "treatment": {
+    "instructions": [],
+    "deferred": []
+  },
+  "priority": 7,
+  "constraints": [
+    {
+      "inclusive": false,
+      "types": ["OPTICAL"],
+      "type": "LinkTypeConstraint"
+    }
+  ],
+  "source": "00:00:00:00:00:02/-1",
+  "destinations": ["00:00:00:00:00:03/-1","00:00:00:00:00:04/-1","00:00:00:00:00:05/-1","00:00:00:00:00:06/-1"]
+}

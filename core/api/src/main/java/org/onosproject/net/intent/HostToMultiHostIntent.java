@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 /**
  * Created by alaurito on 25.08.16.
  */
-public class HostToMultiHostIntent extends ConnectivityIntent {
+public final class HostToMultiHostIntent extends ConnectivityIntent {
 
     static final LinkTypeConstraint NOT_OPTICAL = new LinkTypeConstraint(false, Link.Type.OPTICAL);
 

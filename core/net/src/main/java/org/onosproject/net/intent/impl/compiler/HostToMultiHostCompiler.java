@@ -8,6 +8,7 @@ import org.onosproject.net.Host;
 import org.onosproject.net.HostId;
 import org.onosproject.net.Link;
 import org.onosproject.net.Path;
+import org.onosproject.net.flow.DefaultTrafficSelector;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.host.HostService;
 import org.onosproject.net.intent.HostToHostIntent;
@@ -29,9 +30,6 @@ public class HostToMultiHostCompiler
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected HostService hostService;
 
-    @Reference(cardinality = ReferenceCardinality.MANDATORY_MULTIPLE)
-    protected HostService multipleHostService;
-
     @Activate
     public void activate() {
         intentManager.registerCompiler(HostToMultiHostIntent.class,
@@ -43,29 +41,27 @@ public class HostToMultiHostCompiler
         intentManager.unregisterCompiler(HostToMultiHostIntent.class);
     }
 
-
     @Override
     public List<Intent> compile(HostToMultiHostIntent intent,
-                                List<Intent> installable) {
-
-        ArrayList<PathIntent> multicastIntentPaths = new ArrayList<PathIntent>();
+                                List<Intent> instalConnectivityIntentCompilerlable) {
+        ArrayList<Intent> multicastIntentPaths = new ArrayList<Intent>();
         for (HostId sourceDestination : intent.destinations()) {
             // TODO: Think a better way of doing this that is more similar to the one implemented in ip with class D.
             Path multicastPath = getPath(intent,intent.source(),sourceDestination);
             multicastIntentPaths.add(createPathIntent(
                     multicastPath,
                     hostService.getHost(intent.source()),
-                    multipleHostService.sourceDestination,
+                    hostService.getHost(sourceDestination),
                     intent));
         }
 
-
+        return multicastIntentPaths;
     }
 
     // Creates a path intent from the specified path and original connectivity intent.
     private Intent createPathIntent(Path path, Host src, Host dst,
                                     HostToMultiHostIntent intent) {
-        TrafficSelector selector = builder(intent.selector())
+        TrafficSelector selector = DefaultTrafficSelector.builder(intent.selector())
                 .matchEthSrc(src.mac()).matchEthDst(dst.mac()).build();
         return PathIntent.builder()
                 .appId(intent.appId())
