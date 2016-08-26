@@ -130,7 +130,7 @@ public class HostToMultiHostIntentCompilerTest extends AbstractIntentTest {
                 new HashSet<HostId>(Arrays.asList(hid(HOST_TWO),hid(HOST_THREE),hid(HOST_FOUR))));
         assertThat(intent, is(notNullValue()));
 
-        String[] hops = {HOST_ONE, "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", HOST_TWO};
+        String[] hops = {"h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8"};
         HostToMultiHostCompiler compiler = makeCompiler(hops);
         assertThat(compiler, is(notNullValue()));
 
