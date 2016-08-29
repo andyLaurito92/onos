@@ -18,8 +18,11 @@ package org.onosproject.codec.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 import org.onlab.packet.IpPrefix;
@@ -47,13 +50,7 @@ import org.onosproject.net.flow.criteria.Criteria;
 import org.onosproject.net.flow.criteria.Criterion;
 import org.onosproject.net.flow.criteria.EthCriterion;
 import org.onosproject.net.flow.instructions.Instruction;
-import org.onosproject.net.intent.AbstractIntentTest;
-import org.onosproject.net.intent.Constraint;
-import org.onosproject.net.intent.HostToHostIntent;
-import org.onosproject.net.intent.Intent;
-import org.onosproject.net.intent.IntentService;
-import org.onosproject.net.intent.IntentServiceAdapter;
-import org.onosproject.net.intent.PointToPointIntent;
+import org.onosproject.net.intent.*;
 import org.onosproject.net.intent.constraint.AnnotationConstraint;
 import org.onosproject.net.intent.constraint.AsymmetricPathConstraint;
 import org.onosproject.net.intent.constraint.BandwidthConstraint;
@@ -277,5 +274,30 @@ public class IntentCodecTest extends AbstractIntentTest {
         HostToHostIntent hostIntent = (HostToHostIntent) intent;
         assertThat(hostIntent.priority(), is(7));
         assertThat(hostIntent.constraints(), hasSize(1));
+    }
+
+    /**
+     * Tests the host to multihost intent JSON codec.
+     *
+     * @throws IOException
+     */
+    @Test
+    public void decodeHostToMultiHostIntent() throws IOException {
+        JsonCodec<Intent> intentCodec = context.codec(Intent.class);
+        assertThat(intentCodec, notNullValue());
+
+        Intent intent = getIntent("HostToMultiHostIntent.json", intentCodec);
+        assertThat(intent, notNullValue());
+        assertThat(intent, instanceOf(HostToMultiHostIntent.class));
+
+        HostToMultiHostIntent multihostIntent = (HostToMultiHostIntent) intent;
+        assertThat(multihostIntent.priority(), is(7));
+        assertThat(multihostIntent.constraints(), hasSize(1));
+        assertEquals(hid("00:00:00:00:00:02/None"),multihostIntent.source());
+        HostId destination1 = hid("00:00:00:00:00:03/-1");
+        HostId destination2 = hid("00:00:00:00:00:04/-1");
+        HostId destination3 = hid("00:00:00:00:00:05/-1");
+        HostId destination4 = hid("00:00:00:00:00:06/-1");
+        assertEquals(new HashSet<HostId>(Arrays.asList(destination1, destination2, destination3, destination4)),multihostIntent.destinations());
     }
 }

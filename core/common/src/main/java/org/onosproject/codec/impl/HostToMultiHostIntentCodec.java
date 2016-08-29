@@ -1,5 +1,7 @@
 package org.onosproject.codec.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.onosproject.codec.CodecContext;
 import org.onosproject.codec.JsonCodec;
@@ -8,6 +10,7 @@ import org.onosproject.net.intent.ConnectivityIntent;
 import org.onosproject.net.intent.HostToMultiHostIntent;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -49,12 +52,14 @@ public class HostToMultiHostIntentCodec extends JsonCodec<HostToMultiHostIntent>
         builder.source(HostId.hostId(source));
 
 
-        ObjectNode destinationsJson = nullIsIllegal(get(json, DESTINATIONS),
+        nullIsIllegal(json.get(DESTINATIONS),
                 DESTINATIONS + IntentCodec.MISSING_MEMBER_MESSAGE);
+        ArrayNode destinationsJson = (ArrayNode) json.get(DESTINATIONS);
         if (destinationsJson != null) {
             Set<HostId> destinations = new HashSet<HostId>();
-            while (destinationsJson.iterator().hasNext()) {
-                destinations.add(HostId.hostId(destinationsJson.iterator().next().toString()));
+            Iterator<JsonNode> destinationsIterator = destinationsJson.iterator();
+            while (destinationsIterator.hasNext()) {
+                destinations.add(HostId.hostId(destinationsIterator.next().asText()));
             }
 
             builder.destinations(destinations);
