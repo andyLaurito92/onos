@@ -6,20 +6,16 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
 import org.onosproject.net.Host;
 import org.onosproject.net.HostId;
-import org.onosproject.net.Link;
 import org.onosproject.net.Path;
 import org.onosproject.net.flow.DefaultTrafficSelector;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.host.HostService;
-import org.onosproject.net.intent.HostToHostIntent;
 import org.onosproject.net.intent.HostToMultiHostIntent;
 import org.onosproject.net.intent.Intent;
 import org.onosproject.net.intent.PathIntent;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by alaurito on 25.08.16.
@@ -47,7 +43,7 @@ public class HostToMultiHostCompiler
         ArrayList<Intent> multicastIntentPaths = new ArrayList<Intent>();
         for (HostId sourceDestination : intent.destinations()) {
             // TODO: Think a better way of doing this that is more similar to the one implemented in ip with class D.
-            Path multicastPath = getPath(intent,intent.source(),sourceDestination);
+            Path multicastPath = getPath(intent, intent.source(), sourceDestination);
             multicastIntentPaths.add(createPathIntent(
                     multicastPath,
                     hostService.getHost(intent.source()),

@@ -1,6 +1,5 @@
 package org.onosproject.codec.impl;
 
-import com.eclipsesource.json.JsonArray;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.onosproject.codec.CodecContext;
 import org.onosproject.codec.JsonCodec;
@@ -50,12 +49,13 @@ public class HostToMultiHostIntentCodec extends JsonCodec<HostToMultiHostIntent>
         builder.source(HostId.hostId(source));
 
 
-        ObjectNode destinations_json = nullIsIllegal(get(json, DESTINATIONS),
+        ObjectNode destinationsJson = nullIsIllegal(get(json, DESTINATIONS),
                 DESTINATIONS + IntentCodec.MISSING_MEMBER_MESSAGE);
-        if (destinations_json != null) {
+        if (destinationsJson != null) {
             Set<HostId> destinations = new HashSet<HostId>();
-            while( destinations_json.iterator().hasNext() )
-                destinations.add(HostId.hostId(destinations_json.iterator().next().toString()));
+            while (destinationsJson.iterator().hasNext()) {
+                destinations.add(HostId.hostId(destinationsJson.iterator().next().toString()));
+            }
 
             builder.destinations(destinations);
         }

@@ -10,7 +10,11 @@ import org.onosproject.net.HostId;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.TrafficTreatment;
 import org.onosproject.net.host.HostService;
-import org.onosproject.net.intent.*;
+import org.onosproject.net.intent.HostToMultiHostIntent;
+import org.onosproject.net.intent.AbstractIntentTest;
+import org.onosproject.net.intent.IntentTestsMocks;
+import org.onosproject.net.intent.Intent;
+import org.onosproject.net.intent.PathIntent;
 import org.onosproject.net.resource.MockResourceService;
 import org.onlab.packet.MacAddress;
 import org.onlab.packet.VlanId;
@@ -126,11 +130,14 @@ public class HostToMultiHostIntentCompilerTest extends AbstractIntentTest {
     @Test
     public void testSingleLongPathCompilation() {
 
-        HostToMultiHostIntent intent = makeIntent(hid(HOST_ONE),
-                new HashSet<HostId>(Arrays.asList(hid(HOST_TWO),hid(HOST_THREE),hid(HOST_FOUR))));
+        HostId destination1 = hid(HOST_TWO);
+        HostId destination2 = hid(HOST_THREE);
+        HostId destination3 = hid(HOST_FOUR);
+        HashSet<HostId> destinations = new HashSet<HostId>(Arrays.asList(destination1, destination2, destination3));
+        HostToMultiHostIntent intent = makeIntent(hid(HOST_ONE), destinations);
         assertThat(intent, is(notNullValue()));
 
-        String[] hops = {HOST_ONE,"h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8",HOST_TWO};
+        String[] hops = {HOST_ONE, "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", HOST_TWO};
         HostToMultiHostCompiler compiler = makeCompiler(hops);
         assertThat(compiler, is(notNullValue()));
 

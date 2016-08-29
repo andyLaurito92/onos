@@ -52,7 +52,10 @@ public class HostToMultiHostIntentTest extends IntentTest {
     public void testSameEquals() {
 
         HostId source = hid("00:00:00:00:00:01/-1");
-        Set<HostId> destinations = new HashSet<HostId>(Arrays.asList(hid("00:00:00:00:00:02/-1"),hid("00:00:00:00:00:03/-1"),hid("00:00:00:00:00:04/-1")));
+        HostId destination1 = hid("00:00:00:00:00:02/-1");
+        HostId destination2 = hid("00:00:00:00:00:03/-1");
+        HostId destination3 = hid("00:00:00:00:00:04/-1");
+        Set<HostId> destinations = new HashSet<HostId>(Arrays.asList(destination1, destination2, destination3));
         HostToMultiHostIntent i1 = makeHostToMultiHostIntent(source, destinations);
         HostToMultiHostIntent i2 = makeHostToMultiHostIntent(source, destinations);
 
@@ -76,7 +79,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
         final HostToMultiHostIntent intent1 = HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .build();
@@ -84,7 +87,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
         final HostToMultiHostIntent intent2 = HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .build();
@@ -101,7 +104,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
         final HostToMultiHostIntent intent = HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .constraints(ImmutableList.of(other))
@@ -115,14 +118,14 @@ public class HostToMultiHostIntentTest extends IntentTest {
         final HostToMultiHostIntent implicit = HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .build();
         final HostToMultiHostIntent empty = HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .constraints(ImmutableList.of())
@@ -130,7 +133,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
         final HostToMultiHostIntent exact = HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .constraints(ImmutableList.of(HostToHostIntent.NOT_OPTICAL))
@@ -149,7 +152,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
         return HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .build();
@@ -160,7 +163,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
         return HostToMultiHostIntent.builder()
                 .appId(APPID)
                 .source(id1)
-                .destinations(new HashSet<HostId>(Arrays.asList(id2,id3,id4)))
+                .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
                 .build();
