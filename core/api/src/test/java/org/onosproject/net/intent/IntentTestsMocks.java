@@ -147,8 +147,6 @@ public class IntentTestsMocks {
 
             String[] allHops = new String[pathHops.length];
 
-            allHops.push
-
             if (src.toString().endsWith(pathHops[0])) {
                 System.arraycopy(pathHops, 0, allHops, 0, pathHops.length);
             } else {
