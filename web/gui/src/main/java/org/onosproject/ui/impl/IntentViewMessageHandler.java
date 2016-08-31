@@ -24,6 +24,7 @@ import org.onosproject.net.flow.instructions.Instruction;
 import org.onosproject.net.intent.ConnectivityIntent;
 import org.onosproject.net.intent.Constraint;
 import org.onosproject.net.intent.HostToHostIntent;
+import org.onosproject.net.intent.HostToMultiHostIntent;
 import org.onosproject.net.intent.Intent;
 import org.onosproject.net.intent.IntentService;
 import org.onosproject.net.intent.LinkCollectionIntent;
@@ -160,6 +161,9 @@ public class IntentViewMessageHandler extends UiMessageHandler {
                 if (intent instanceof HostToHostIntent) {
                     buildHostToHostDetails((HostToHostIntent) intent, sb);
 
+                } else if (intent instanceof HostToMultiHostIntent) {
+                    buildHostToMultiHostDetails((HostToMultiHostIntent) intent, sb);
+
                 } else if (intent instanceof PointToPointIntent) {
                     buildPointToPointDetails((PointToPointIntent) intent, sb);
 
@@ -209,6 +213,14 @@ public class IntentViewMessageHandler extends UiMessageHandler {
                 if (constraints != null && !constraints.isEmpty()) {
                     sb.append("Constraints: ").append(constraints);
                 }
+            }
+
+            private void buildHostToMultiHostDetails(HostToMultiHostIntent intent,
+                                                     StringBuilder sb) {
+                sb.append(" Host Source: ")
+                        .append(intent.source())
+                        .append(", Destinations Host: ")
+                        .append(intent.destinations());
             }
 
             private void buildHostToHostDetails(HostToHostIntent intent,
