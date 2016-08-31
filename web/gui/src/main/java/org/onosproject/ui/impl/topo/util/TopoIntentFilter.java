@@ -24,16 +24,17 @@ import org.onosproject.net.Link;
 import org.onosproject.net.device.DeviceService;
 import org.onosproject.net.flow.FlowRule;
 import org.onosproject.net.host.HostService;
-import org.onosproject.net.intent.FlowObjectiveIntent;
-import org.onosproject.net.intent.FlowRuleIntent;
 import org.onosproject.net.intent.HostToHostIntent;
-import org.onosproject.net.intent.Intent;
+import org.onosproject.net.intent.HostToMultiHostIntent;
 import org.onosproject.net.intent.IntentService;
-import org.onosproject.net.intent.LinkCollectionIntent;
-import org.onosproject.net.intent.MultiPointToSinglePointIntent;
-import org.onosproject.net.intent.OpticalConnectivityIntent;
-import org.onosproject.net.intent.PathIntent;
 import org.onosproject.net.intent.PointToPointIntent;
+import org.onosproject.net.intent.Intent;
+import org.onosproject.net.intent.OpticalConnectivityIntent;
+import org.onosproject.net.intent.MultiPointToSinglePointIntent;
+import org.onosproject.net.intent.PathIntent;
+import org.onosproject.net.intent.FlowRuleIntent;
+import org.onosproject.net.intent.FlowObjectiveIntent;
+import org.onosproject.net.intent.LinkCollectionIntent;
 import org.onosproject.net.link.LinkService;
 
 import java.util.ArrayList;
@@ -113,8 +114,12 @@ public class TopoIntentFilter {
         for (Intent intent : sourceIntents) {
             if (intentService.getIntentState(intent.key()) == INSTALLED) {
                 boolean isRelevant = false;
+
                 if (intent instanceof HostToHostIntent) {
                     isRelevant = isIntentRelevantToHosts((HostToHostIntent) intent, hosts) &&
+                            isIntentRelevantToDevices(intent, devices);
+                } else if (intent instanceof HostToMultiHostIntent) {
+                    isRelevant = isIntentRelevantToMultiHosts((HostToMultiHostIntent) intent, hosts) &&
                             isIntentRelevantToDevices(intent, devices);
                 } else if (intent instanceof PointToPointIntent) {
                     isRelevant = isIntentRelevant((PointToPointIntent) intent, edgePoints) &&
@@ -142,6 +147,18 @@ public class TopoIntentFilter {
             }
         }
         return intents;
+    }
+
+    // Indicates whether the specified intent involves all of the given hosts.
+    private boolean isIntentRelevantToMultiHosts(HostToMultiHostIntent intent, Iterable<Host> hosts) {
+        for (Host host : hosts) {
+            HostId id = host.id();
+            // Bail if intent does not involve this host.
+            if (!id.equals(intent.source()) && !intent.destinations().contains(id)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Indicates whether the specified intent involves all of the given hosts.
