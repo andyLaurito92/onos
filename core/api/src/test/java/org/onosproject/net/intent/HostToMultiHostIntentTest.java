@@ -45,7 +45,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
     }
 
     /**
-     * Tests the equals() method where two HostToHostIntents have references
+     * Tests the equals() method where two HostToMultiHostIntents have references
      * to the same hosts. These should compare equal.
      */
     @Test
@@ -64,7 +64,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
     }
 
     /**
-     * Checks that the HostToHostIntent class is immutable.
+     * Checks that the HostToMultiHostIntent class is immutable.
      */
     @Test
     public void testImmutability() {
@@ -136,7 +136,7 @@ public class HostToMultiHostIntentTest extends IntentTest {
                 .destinations(new HashSet<HostId>(Arrays.asList(id2, id3, id4)))
                 .selector(selector)
                 .treatment(treatment)
-                .constraints(ImmutableList.of(HostToHostIntent.NOT_OPTICAL))
+                .constraints(ImmutableList.of(HostToMultiHostIntent.NOT_OPTICAL))
                 .build();
 
         new EqualsTester()

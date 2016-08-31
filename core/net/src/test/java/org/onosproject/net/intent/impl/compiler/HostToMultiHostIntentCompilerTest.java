@@ -114,9 +114,9 @@ public class HostToMultiHostIntentCompilerTest extends AbstractIntentTest {
      * @param hops string array describing the path hops to use when compiling
      * @return HostToMultiHost intent compiler
      */
-    private HostToMultiHostCompiler makeCompiler(String[] hops) {
-        HostToMultiHostCompiler compiler =
-                new HostToMultiHostCompiler();
+    private HostToMultiHostIntentCompiler makeCompiler(String[] hops) {
+        HostToMultiHostIntentCompiler compiler =
+                new HostToMultiHostIntentCompiler();
         compiler.pathService = new IntentTestsMocks.MockPathService(hops);
         compiler.hostService = mockHostService;
         compiler.resourceService = new MockResourceService();
@@ -138,7 +138,7 @@ public class HostToMultiHostIntentCompilerTest extends AbstractIntentTest {
         assertThat(intent, is(notNullValue()));
 
         String[] hops = {HOST_ONE, "h1", "h2", "h3", "h4", "h5", "h6", "h7", "h8", HOST_TWO};
-        HostToMultiHostCompiler compiler = makeCompiler(hops);
+        HostToMultiHostIntentCompiler compiler = makeCompiler(hops);
         assertThat(compiler, is(notNullValue()));
 
         List<Intent> result = compiler.compile(intent, null);

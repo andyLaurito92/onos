@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by alaurito on 25.08.16.
  */
-public class HostToMultiHostCompiler
+public class HostToMultiHostIntentCompiler
         extends ConnectivityIntentCompiler<HostToMultiHostIntent> {
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
