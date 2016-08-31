@@ -21,6 +21,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -89,6 +90,8 @@ public class IntentCodecTest extends AbstractIntentTest {
 
     private final HostId id1 = hid("12:34:56:78:91:ab/1");
     private final HostId id2 = hid("12:34:56:78:92:ab/1");
+    private final HostId id3 = hid("12:34:56:78:93:ab/1");
+    private final HostId id4 = hid("12:34:56:78:94:ab/1");
     private final ApplicationId appId = new DefaultApplicationId(3, "test");
     final TrafficSelector emptySelector =
             DefaultTrafficSelector.emptySelector();
@@ -121,6 +124,27 @@ public class IntentCodecTest extends AbstractIntentTest {
 
         final JsonCodec<HostToHostIntent> intentCodec =
                 context.codec(HostToHostIntent.class);
+        assertThat(intentCodec, notNullValue());
+
+        final ObjectNode intentJson = intentCodec.encode(intent, context);
+        assertThat(intentJson, matchesIntent(intent));
+    }
+
+    /**
+     * Tests the encoding of a host to host intent.
+     */
+    @Test
+    public void hostToMultiHostIntent() {
+        Set<HostId> destinations = new HashSet<HostId>(Arrays.asList(id2, id3, id4));
+        final HostToMultiHostIntent intent =
+                HostToMultiHostIntent.builder()
+                        .appId(appId)
+                        .source(id1)
+                        .destinations(destinations)
+                        .build();
+
+        final JsonCodec<HostToMultiHostIntent> intentCodec =
+                context.codec(HostToMultiHostIntent.class);
         assertThat(intentCodec, notNullValue());
 
         final ObjectNode intentJson = intentCodec.encode(intent, context);

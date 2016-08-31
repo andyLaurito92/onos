@@ -31,6 +31,7 @@ import org.onosproject.net.flow.instructions.Instruction;
 import org.onosproject.net.intent.ConnectivityIntent;
 import org.onosproject.net.intent.Constraint;
 import org.onosproject.net.intent.HostToHostIntent;
+import org.onosproject.net.intent.HostToMultiHostIntent;
 import org.onosproject.net.intent.Intent;
 import org.onosproject.net.intent.PointToPointIntent;
 import org.onosproject.net.intent.constraint.AnnotationConstraint;
@@ -82,6 +83,34 @@ public final class IntentJsonMatcher extends TypeSafeDiagnosingMatcher<JsonNode>
         final String jsonHost2 = jsonIntent.get("two").asText();
         if (!host2.equals(jsonHost2)) {
             description.appendText("host two was " + jsonHost2);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Matches the JSON representation of a host to multihost intent.
+     *
+     * @param jsonIntent JSON representation of the intent
+     * @param description Description object used for recording errors
+     * @return true if the JSON matches the intent, false otherwise
+     */
+    private boolean matchHostToMultiHostIntent(JsonNode jsonIntent, Description description) {
+        final HostToMultiHostIntent hostToMultiHostIntent = (HostToMultiHostIntent) intent;
+
+        // check host one
+        final String host1 = hostToMultiHostIntent.source().toString();
+        final String jsonSource = jsonIntent.get("source").asText();
+        if (!host1.equals(jsonSource)) {
+            description.appendText("host source was " + jsonSource);
+            return false;
+        }
+
+        // check host 2
+        final String destinations = hostToMultiHostIntent.destinations().toString();
+        final String jsonDestinations = jsonIntent.get("destinations").asText();
+        if (!destinations.equals(jsonDestinations)) {
+            description.appendText("host destinations were" + jsonDestinations);
             return false;
         }
         return true;
@@ -406,6 +435,8 @@ public final class IntentJsonMatcher extends TypeSafeDiagnosingMatcher<JsonNode>
             return matchHostToHostIntent(jsonIntent, description);
         } else if (connectivityIntent instanceof PointToPointIntent) {
             return matchPointToPointIntent(jsonIntent, description);
+        } else if (connectivityIntent instanceof HostToMultiHostIntent) {
+            return matchHostToMultiHostIntent(jsonIntent, description);
         } else {
             description.appendText("class of connectivity intent is unknown");
             return false;
