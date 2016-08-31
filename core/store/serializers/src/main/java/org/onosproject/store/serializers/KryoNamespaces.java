@@ -164,6 +164,7 @@ import org.onosproject.net.intent.ConnectivityIntent;
 import org.onosproject.net.intent.FlowObjectiveIntent;
 import org.onosproject.net.intent.FlowRuleIntent;
 import org.onosproject.net.intent.HostToHostIntent;
+import org.onosproject.net.intent.HostToMultiHostIntent;
 import org.onosproject.net.intent.Intent;
 import org.onosproject.net.intent.IntentId;
 import org.onosproject.net.intent.IntentOperation;
@@ -444,6 +445,7 @@ public final class KryoNamespaces {
                     DefaultPath.class,
                     DefaultEdgeLink.class,
                     HostToHostIntent.class,
+                    HostToMultiHostIntent.class,
                     PointToPointIntent.class,
                     MultiPointToSinglePointIntent.class,
                     SinglePointToMultiPointIntent.class,
