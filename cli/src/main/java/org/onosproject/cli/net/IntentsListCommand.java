@@ -22,6 +22,7 @@ import org.apache.karaf.shell.commands.Option;
 import org.onosproject.cli.AbstractShellCommand;
 import org.onosproject.net.intent.ConnectivityIntent;
 import org.onosproject.net.intent.HostToHostIntent;
+import org.onosproject.net.intent.HostToMultiHostIntent;
 import org.onosproject.net.intent.Intent;
 import org.onosproject.net.intent.IntentService;
 import org.onosproject.net.intent.IntentState;
@@ -112,6 +113,7 @@ public class IntentsListCommand extends AbstractShellCommand {
         private IntentSummary summaryAll;
         private IntentSummary summaryConnectivity;
         private IntentSummary summaryHostToHost;
+        private IntentSummary summaryHostToMultiHost;
         private IntentSummary summaryPointToPoint;
         private IntentSummary summaryMultiPointToSinglePoint;
         private IntentSummary summarySinglePointToMultiPoint;
@@ -129,6 +131,7 @@ public class IntentsListCommand extends AbstractShellCommand {
             summaryAll = new IntentSummary("All");
             summaryConnectivity = new IntentSummary("Connectivity");
             summaryHostToHost = new IntentSummary("HostToHost");
+            summaryHostToMultiHost = new IntentSummary("HostToMultiHost");
             summaryPointToPoint = new IntentSummary("PointToPoint");
             summaryMultiPointToSinglePoint =
                 new IntentSummary("MultiPointToSinglePoint");
@@ -169,6 +172,10 @@ public class IntentsListCommand extends AbstractShellCommand {
                 }
                 if (intent instanceof HostToHostIntent) {
                     summaryHostToHost.update(intentState);
+                    continue;
+                }
+                if (intent instanceof HostToMultiHostIntent) {
+                    summaryHostToMultiHost.update(intentState);
                     continue;
                 }
                 if (intent instanceof PointToPointIntent) {
@@ -217,6 +224,7 @@ public class IntentsListCommand extends AbstractShellCommand {
             ObjectNode result = mapper.createObjectNode();
             result.set("connectivity", summaryConnectivity.json(mapper));
             result.set("hostToHost", summaryHostToHost.json(mapper));
+            result.set("hostToMultiHost", summaryHostToMultiHost.json(mapper));
             result.set("pointToPoint", summaryPointToPoint.json(mapper));
             result.set("multiPointToSinglePoint",
                        summaryMultiPointToSinglePoint.json(mapper));
@@ -238,6 +246,7 @@ public class IntentsListCommand extends AbstractShellCommand {
         private void printSummary() {
             summaryConnectivity.printState();
             summaryHostToHost.printState();
+            summaryHostToMultiHost.printState();
             summaryPointToPoint.printState();
             summaryMultiPointToSinglePoint.printState();
             summarySinglePointToMultiPoint.printState();
@@ -391,6 +400,9 @@ public class IntentsListCommand extends AbstractShellCommand {
         } else if (intent instanceof PointToPointIntent) {
             PointToPointIntent pi = (PointToPointIntent) intent;
             print("    ingress=%s, egress=%s", pi.ingressPoint(), pi.egressPoint());
+        } else if (intent instanceof HostToMultiHostIntent) {
+            HostToMultiHostIntent pi = (HostToMultiHostIntent) intent;
+            print("    source=%s, destinations=%s", pi.source(), pi.destinations());
         } else if (intent instanceof MultiPointToSinglePointIntent) {
             MultiPointToSinglePointIntent pi = (MultiPointToSinglePointIntent) intent;
             print("    ingress=%s, egress=%s", pi.ingressPoints(), pi.egressPoint());
