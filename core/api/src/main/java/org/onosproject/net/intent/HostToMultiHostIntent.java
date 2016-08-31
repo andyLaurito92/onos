@@ -2,9 +2,11 @@ package org.onosproject.net.intent;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang.ArrayUtils;
 import org.onosproject.core.ApplicationId;
 import org.onosproject.net.HostId;
 import org.onosproject.net.Link;
+import org.onosproject.net.NetworkResource;
 import org.onosproject.net.flow.TrafficSelector;
 import org.onosproject.net.flow.TrafficTreatment;
 import org.onosproject.net.intent.constraint.LinkTypeConstraint;
@@ -149,7 +151,7 @@ public final class HostToMultiHostIntent extends ConnectivityIntent {
                              TrafficTreatment treatment,
                              List<Constraint> constraints,
                              int priority) {
-        super(appId, key, Collections.emptyList(), selector, treatment,
+        super(appId, key, Collections.unmodifiableSet(destinations), selector, treatment,
                 constraints, priority);
 
         this.source = checkNotNull(source);
