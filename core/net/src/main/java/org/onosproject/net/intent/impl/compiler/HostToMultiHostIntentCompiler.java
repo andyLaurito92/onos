@@ -28,8 +28,7 @@ public class HostToMultiHostIntentCompiler
 
     @Activate
     public void activate() {
-        intentManager.registerCompiler(HostToMultiHostIntent.class,
-                this);
+        intentManager.registerCompiler(HostToMultiHostIntent.class, this);
     }
 
     @Deactivate
