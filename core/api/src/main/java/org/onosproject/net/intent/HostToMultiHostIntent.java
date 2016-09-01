@@ -33,8 +33,8 @@ public final class HostToMultiHostIntent extends ConnectivityIntent {
      *
      * @return host to multihost intent builder
      */
-    public static HostToMultiHostIntent.Builder builder() {
-        return new HostToMultiHostIntent.Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     /**
@@ -49,33 +49,33 @@ public final class HostToMultiHostIntent extends ConnectivityIntent {
         }
 
         @Override
-        public HostToMultiHostIntent.Builder appId(ApplicationId appId) {
-            return (HostToMultiHostIntent.Builder) super.appId(appId);
+        public Builder appId(ApplicationId appId) {
+            return (Builder) super.appId(appId);
         }
 
         @Override
-        public HostToMultiHostIntent.Builder key(Key key) {
-            return (HostToMultiHostIntent.Builder) super.key(key);
+        public Builder key(Key key) {
+            return (Builder) super.key(key);
         }
 
         @Override
-        public HostToMultiHostIntent.Builder selector(TrafficSelector selector) {
-            return (HostToMultiHostIntent.Builder) super.selector(selector);
+        public Builder selector(TrafficSelector selector) {
+            return (Builder) super.selector(selector);
         }
 
         @Override
-        public HostToMultiHostIntent.Builder treatment(TrafficTreatment treatment) {
-            return (HostToMultiHostIntent.Builder) super.treatment(treatment);
+        public Builder treatment(TrafficTreatment treatment) {
+            return (Builder) super.treatment(treatment);
         }
 
         @Override
-        public HostToMultiHostIntent.Builder constraints(List<Constraint> constraints) {
-            return (HostToMultiHostIntent.Builder) super.constraints(constraints);
+        public Builder constraints(List<Constraint> constraints) {
+            return (Builder) super.constraints(constraints);
         }
 
         @Override
-        public HostToMultiHostIntent.Builder priority(int priority) {
-            return (HostToMultiHostIntent.Builder) super.priority(priority);
+        public Builder priority(int priority) {
+            return (Builder) super.priority(priority);
         }
 
         /**
@@ -84,7 +84,7 @@ public final class HostToMultiHostIntent extends ConnectivityIntent {
          * @param one first host
          * @return this builder
          */
-        public HostToMultiHostIntent.Builder source(HostId one) {
+        public Builder source(HostId one) {
             this.source = one;
             return this;
         }
@@ -95,7 +95,7 @@ public final class HostToMultiHostIntent extends ConnectivityIntent {
          * @param destinations second host
          * @return this builder
          */
-        public HostToMultiHostIntent.Builder destinations(Set<HostId> destinations) {
+        public Builder destinations(Set<HostId> destinations) {
             this.destinations = destinations;
             return this;
         }
