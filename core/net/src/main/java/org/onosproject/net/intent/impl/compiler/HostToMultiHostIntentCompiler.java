@@ -1,6 +1,7 @@
 package org.onosproject.net.intent.impl.compiler;
 
 import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.ReferenceCardinality;
@@ -20,6 +21,7 @@ import java.util.List;
 /**
  * Created by alaurito on 25.08.16.
  */
+@Component(immediate = true)
 public class HostToMultiHostIntentCompiler
         extends ConnectivityIntentCompiler<HostToMultiHostIntent> {
 
